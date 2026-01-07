@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 :root {
   --background: #ffffff;
@@ -8,8 +9,148 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-bangers: var(--font-bangers);
+  --font-comic: var(--font-comic);
+  --font-coding: var(--font-coding);
+  --font-inter: var(--font-inter);
+  --font-serif: var(--font-serif);
+}
+
+.comic {
+  --bg-primary: #facc15;
+  --bg-secondary: #ffffff;
+  --text-primary: #000000;
+  --text-secondary: #171717;
+  --accent-blue: #22d3ee;
+  --border-width: 3px;
+  --shadow-style: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+  --radius: 0px;
+
+  /* Defaults */
+  --font-heading: var(--font-bangers);
+  --font-body: var(--font-comic);
+}
+
+.coding {
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #000000;
+  --text-primary: #22c55e;
+  --text-secondary: #16a34a;
+  --accent-blue: #3b82f6;
+  --border-width: 1px;
+  --shadow-style: 0 0 10px rgba(34, 197, 94, 0.1);
+  --radius: 0.5rem;
+
+  /* Defaults */
+  --font-heading: var(--font-coding);
+  --font-body: var(--font-coding);
+}
+
+.professional {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --accent-blue: #0ea5e9;
+  --border-width: 1px;
+  --shadow-style: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --radius: 0.75rem;
+
+  /* Defaults */
+  --font-heading: var(--font-inter);
+  --font-body: var(--font-inter);
+}
+
+.retro {
+  --bg-primary: #2e003e;
+  --bg-secondary: #3d0052;
+  --text-primary: #ff00ff;
+  --text-secondary: #00ffff;
+  --accent-blue: #00ffff;
+  --border-width: 2px;
+  --shadow-style: 4px 4px 0px 0px #00ffff;
+  --radius: 0px;
+
+  /* Defaults */
+  --font-heading: var(--font-coding);
+  --font-body: var(--font-coding);
+}
+
+/* Font Overrides via data-font attribute - HIGH SPECIFICITY */
+html body[data-theme] .app-root[data-font="comic"] {
+  --font-heading: var(--font-bangers);
+  --font-body: var(--font-comic);
+}
+
+html body[data-theme] .app-root[data-font="coding"] {
+  --font-heading: var(--font-coding);
+  --font-body: var(--font-coding);
+}
+
+html body[data-theme] .app-root[data-font="inter"] {
+  --font-heading: var(--font-inter);
+  --font-body: var(--font-inter);
+}
+
+html body[data-theme] .app-root[data-font="serif"] {
+  --font-heading: var(--font-serif);
+  --font-body: var(--font-serif);
+}
+
+/* Base Body Application */
+body {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Utility Defaults */
+.theme-bg {
+  background-color: var(--bg-primary);
+}
+
+.theme-surface {
+  background-color: var(--bg-secondary);
+}
+
+.theme-text {
+  color: var(--text-primary);
+}
+
+.theme-border {
+  border: var(--border-width) solid var(--text-primary);
+}
+
+.theme-shadow {
+  box-shadow: var(--shadow-style);
+}
+
+.theme-radius {
+  border-radius: var(--radius);
+}
+
+.font-theme-heading {
+  font-family: var(--font-heading);
+}
+
+.font-theme-body {
+  font-family: var(--font-body);
+}
+
+/* Legacy Comic Support (mapping to vars) */
+.comic-shadow {
+  box-shadow: var(--shadow-style);
+}
+
+.comic-border {
+  border: var(--border-width) solid var(--text-primary);
+}
+
+.comic-button {
+  transition: all 0.1s;
+}
+
+.comic-button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 1);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -17,10 +158,4 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }
