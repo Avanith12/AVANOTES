@@ -33,3 +33,6 @@ npm install
 npm run dev
 ```
 Open [http://localhost:3000](http://localhost:3000).
+
+### License
+Copyright © 2026 Avanith Kanamarlapudi. All Rights Reserved.
