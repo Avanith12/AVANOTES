@@ -3,6 +3,9 @@ Real-time summarization meets total visual control.
 
 Live at: https://avanotes.vercel.app/
 
+### Philosophy
+Avanotes was built to tackle "Information Overload" in meetings. By combining distraction-free writing with on-device NLP, it allows you to capture raw ideas and instantly transform them into actionable summaries—all while keeping your data 100% private and ephemeral.
+
 ### Features
 - **Custom Moods & Aesthetics**: Switch between **Comic**, **Hacker**, **Professional**, and **Retro** themes. Customize further with dedicated **Font** and **Color** switchers for a truly personal workspace.
 - **Voice Typing**: Integrated **Dictation** mode powered by the Web Speech API. Transcribe meetings in real-time directly into the editor.
@@ -44,12 +47,25 @@ Just type naturally! Avanotes understands context using on-device NLP:
     └── lib             # Core Logic: NLP Summarizer and PDF Export engines
 ```
 
+### Future Roadmap
+- [ ] **Vibe Check**: Real-time sentiment analysis of meeting productivity.
+- [ ] **Meeting Templates**: Standard patterns for Standups, Kickoffs, and retros.
+- [ ] **Email Formatter**: One-click summary-to-email professional drafting.
+- [ ] **Reading Time**: Intelligent estimates for note consumption.
+
+### Requirements
+- **Browser Support**: Voice Typing (Web Speech API) is supported on Chrome, Edge, and Safari.
+- **Connectivity**: 100% Offline-capable after initial load.
+
 ### Run It
 ```bash
 npm install
 npm run dev
 ```
 Open [http://localhost:3000](http://localhost:3000).
+
+### Acknowledgments
+This project was conceived and designed by **Avanith Kanamarlapudi**. While AI was utilized in some places to accelerate the coding process and refine implementation details, the core ideas, features, and creative vision are completely original.
 
 ### License
 Copyright © 2026 Avanith Kanamarlapudi. All Rights Reserved.
