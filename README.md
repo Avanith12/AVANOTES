@@ -10,6 +10,12 @@ Real-time summarization meets total visual control.
 - **Dynamic Summarization**: Intelligently trims long paragraphs into concise, high-impact bullet points.
 - **Privacy First**: 100% Local. No API keys, no servers, and no tracking. Your notes never leave your browser.
 
+### 📝 Seeing it in Action
+Just type naturally! Avanotes understands context using on-device NLP:
+- **Actions**: *"John needs to review the PR by Tuesday."* → Automatically added to **Action Items**.
+- **Decisions**: *"We agreed to use Tailwind for the styling."* → Automatically added to **Decisions**.
+- **Insights**: *"The project is currently in beta."* → Intelligently kept as a **Key Note**.
+
 ### Run It
 ```bash
 npm install
