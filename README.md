@@ -1,6 +1,5 @@
-# Avanotes
-
-A customizable note-taking app that summarizes your meetings.
+# Avanotes — The note-taking app with a personality.
+Real-time summarization meets total visual control.
 
 ### Features
 - **Themes**: Switch between Comic, Hacker, Professional, and Retro styles.
