@@ -9,8 +9,8 @@ interface NoteInputProps {
 }
 
 export default function NoteInput({ onSummarize, isProcessing }: NoteInputProps) {
-    const [fontSize, setFontSize] = useState(18);
     const [isDictating, setIsDictating] = useState(false);
+    const [isEmpty, setIsEmpty] = useState(true);
     const editorRef = useRef<HTMLDivElement>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const recognitionRef = useRef<any>(null);
@@ -36,7 +36,6 @@ export default function NoteInput({ onSummarize, isProcessing }: NoteInputProps)
                 }
 
                 if (finalTranscript && editorRef.current) {
-                    // Simple text insertion at cursor or end
                     const selection = window.getSelection();
                     const newTextContent = finalTranscript + ' ';
 
@@ -52,7 +51,7 @@ export default function NoteInput({ onSummarize, isProcessing }: NoteInputProps)
                     } else {
                         editorRef.current.innerText += newTextContent;
                     }
-                    // Trigger any input-related logic if needed (currently none for ephemeral notes)
+                    setIsEmpty(false);
                 }
             };
 
@@ -100,6 +99,12 @@ export default function NoteInput({ onSummarize, isProcessing }: NoteInputProps)
         }
     }, []);
 
+    const handleInput = () => {
+        if (editorRef.current) {
+            setIsEmpty(editorRef.current.innerText.trim().length === 0);
+        }
+    };
+
     const handleSummarize = () => {
         if (!editorRef.current) return;
         const text = editorRef.current.innerText;
@@ -110,6 +115,7 @@ export default function NoteInput({ onSummarize, isProcessing }: NoteInputProps)
     const handleClear = () => {
         if (editorRef.current) {
             editorRef.current.innerHTML = '';
+            setIsEmpty(true);
         }
     };
 
@@ -143,15 +149,16 @@ export default function NoteInput({ onSummarize, isProcessing }: NoteInputProps)
         reader.onload = (event) => {
             if (editorRef.current && event.target?.result) {
                 editorRef.current.innerText = event.target.result as string;
+                setIsEmpty(false);
             }
         };
         reader.readAsText(file);
-        // Reset value to allow re-uploading same file
         e.target.value = '';
     };
 
     // WYSIWYG Handlers
     const execCmd = (command: string, value: string | undefined = undefined) => {
+        document.execCommand('styleWithCSS', false, 'true');
         document.execCommand(command, false, value);
         if (editorRef.current) editorRef.current.focus();
     };
@@ -160,10 +167,24 @@ export default function NoteInput({ onSummarize, isProcessing }: NoteInputProps)
     const handleItalic = () => execCmd('italic');
     const handleList = () => execCmd('insertUnorderedList');
     const handleIndent = () => execCmd('indent');
+    const handleTextColor = (color: string) => execCmd('foreColor', color);
+    const handleHighlightColor = (color: string) => execCmd('backColor', color);
+
+    const handleSelectionFontSize = (delta: number) => {
+        const selection = window.getSelection();
+        if (!selection || selection.rangeCount === 0) return;
+
+        const currentSize = document.queryCommandValue('fontSize') || '3';
+        let newSize = parseInt(currentSize);
+
+        if (delta > 0) newSize = Math.min(7, newSize + 1);
+        else newSize = Math.max(1, newSize - 1);
+
+        execCmd('fontSize', newSize.toString());
+    };
 
     return (
         <div id="input-card-content" className="flex flex-col h-full min-h-[600px] theme-surface theme-border theme-shadow p-6 theme-radius relative transition-all duration-300">
-
             <div className="flex justify-between items-center mb-4 mt-2">
                 <h2 className="text-3xl font-theme-heading theme-text uppercase tracking-wide">
                     Input Notes
@@ -209,28 +230,37 @@ export default function NoteInput({ onSummarize, isProcessing }: NoteInputProps)
 
             {/* Toolbar */}
             <EditorToolbar
-                fontSize={fontSize}
-                onFontSizeChange={setFontSize}
+                onSelectionFontSize={handleSelectionFontSize}
                 onBold={handleBold}
                 onItalic={handleItalic}
                 onList={handleList}
                 onIndent={handleIndent}
+                onTextColor={handleTextColor}
+                onHighlightColor={handleHighlightColor}
                 onDictate={handleDictate}
                 isDictating={isDictating}
             />
 
             <div className="relative flex-grow theme-border theme-surface theme-radius overflow-hidden">
+                {/* Placeholder - Absolute sibling to the editor */}
+                {isEmpty && (
+                    <div className="absolute top-4 left-4 opacity-50 pointer-events-none theme-text font-theme-body z-0" style={{ fontSize: '18px' }}>
+                        {isDictating ? (
+                            <span className="text-red-500 animate-pulse">Listening...</span>
+                        ) : (
+                            'Type your notes here...'
+                        )}
+                    </div>
+                )}
+
                 <div
                     ref={editorRef}
                     contentEditable
-                    className="w-full h-full min-h-[400px] p-4 theme-text font-theme-body outline-none overflow-y-auto"
-                    style={{ fontSize: `${fontSize}px` }}
+                    onInput={handleInput}
+                    className="w-full h-full min-h-[400px] p-4 theme-text font-theme-body outline-none overflow-y-auto relative z-10"
+                    style={{ fontSize: '18px', backgroundColor: 'transparent' }}
                     suppressContentEditableWarning={true}
-                >
-                    <div className="opacity-50 pointer-events-none absolute" style={{ display: isDictating || (editorRef.current?.innerText.trim().length ?? 0) > 0 ? 'none' : 'block' }}>
-                        {isDictating ? 'Listening...' : 'Type your notes here...'}
-                    </div>
-                </div>
+                />
             </div>
 
             <button
