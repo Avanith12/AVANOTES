@@ -5,12 +5,12 @@ Live at: https://avanotes.vercel.app/
 
 ### Features
 - **Custom Moods & Aesthetics**: Switch between **Comic**, **Hacker**, **Professional**, and **Retro** themes. Customize further with dedicated **Font** and **Color** switchers for a truly personal workspace.
-- **Premium UX**: Smooth transitions, glassmorphism, and responsive design tailored for high-focus writing.
-- **Productivity Suite**: Integrated **File Upload** for .txt and .md, **Multi-Page PDF** export, and one-click **Markdown Copy** to streamline your workflow.
-- **WYSIWYG Editor**: Real-time visual formatting (Bold, Italic, Lists) with adjustable font sizes.
+- **Voice Typing**: Integrated **Dictation** mode powered by the Web Speech API. Transcribe meetings in real-time directly into the editor.
 - **Smart Local Intelligence**: Uses advanced NLP to understand context, automatically detecting Action Items, Decisions, and Next Steps without special tags.
-- **Dynamic Summarization**: Intelligently trims long paragraphs into concise, high-impact bullet points.
-- **Privacy First**: 100% Local. No API keys, no servers, and no tracking. Your notes never leave your browser.
+- **Productivity Suite**: Integrated **File Upload** (.txt/.md), **Multi-Page PDF** export, and one-click **Markdown Copy**.
+- **WYSIWYG Editor**: Real-time visual formatting (Bold, Italic, Lists) with adjustable font sizes.
+- **Privacy First**: 100% Local and Ephemeral. No servers, no tracking, and zero-storage. Your data exists only and briefly in your browser.
+- **Premium UX**: Smooth transitions, glassmorphism, and responsive design tailored for high-focus writing.
 
 ### Seeing it in Action
 Just type naturally! Avanotes understands context using on-device NLP:
