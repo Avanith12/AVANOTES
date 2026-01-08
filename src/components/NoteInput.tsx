@@ -11,9 +11,16 @@ interface NoteInputProps {
 export default function NoteInput({ onSummarize, isProcessing }: NoteInputProps) {
     const [isDictating, setIsDictating] = useState(false);
     const [isEmpty, setIsEmpty] = useState(true);
+    const [wordCount, setWordCount] = useState(0);
     const editorRef = useRef<HTMLDivElement>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const recognitionRef = useRef<any>(null);
+
+    const updateStats = (text: string) => {
+        const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+        setWordCount(words);
+        setIsEmpty(text.trim().length === 0);
+    };
 
     // Initialize Speech Recognition
     useEffect(() => {
@@ -51,7 +58,7 @@ export default function NoteInput({ onSummarize, isProcessing }: NoteInputProps)
                     } else {
                         editorRef.current.innerText += newTextContent;
                     }
-                    setIsEmpty(false);
+                    updateStats(editorRef.current.innerText);
                 }
             };
 
@@ -101,7 +108,7 @@ export default function NoteInput({ onSummarize, isProcessing }: NoteInputProps)
 
     const handleInput = () => {
         if (editorRef.current) {
-            setIsEmpty(editorRef.current.innerText.trim().length === 0);
+            updateStats(editorRef.current.innerText);
         }
     };
 
@@ -115,7 +122,7 @@ export default function NoteInput({ onSummarize, isProcessing }: NoteInputProps)
     const handleClear = () => {
         if (editorRef.current) {
             editorRef.current.innerHTML = '';
-            setIsEmpty(true);
+            updateStats('');
         }
     };
 
@@ -191,7 +198,7 @@ export default function NoteInput({ onSummarize, isProcessing }: NoteInputProps)
         reader.onload = (event) => {
             if (editorRef.current && event.target?.result) {
                 editorRef.current.innerText = event.target.result as string;
-                setIsEmpty(false);
+                updateStats(editorRef.current.innerText);
             }
         };
         reader.readAsText(file);
@@ -303,6 +310,13 @@ export default function NoteInput({ onSummarize, isProcessing }: NoteInputProps)
                     style={{ fontSize: '18px', backgroundColor: 'transparent' }}
                     suppressContentEditableWarning={true}
                 />
+
+                {/* Stats Bar */}
+                <div className="absolute bottom-2 right-4 z-20 flex gap-4 pointer-events-none">
+                    <div className="text-[10px] font-bold theme-text opacity-40 uppercase tracking-widest flex items-center gap-1">
+                        {wordCount} {wordCount === 1 ? 'WORD' : 'WORDS'}
+                    </div>
+                </div>
             </div>
 
             <button
