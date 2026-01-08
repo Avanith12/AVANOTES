@@ -18,6 +18,14 @@ Just type naturally! Avanotes understands context using on-device NLP:
 - **Decisions**: "We agreed to use Tailwind for the styling." -> Automatically added to **Decisions**.
 - **Insights**: "The project is currently in beta." -> Intelligently kept as a **Key Note**.
 
+### Built With
+- **Next.js 14** (App Router)
+- **React 18** (Functional Components & Hooks)
+- **Tailwind CSS** (Custom theme orchestration)
+- **Compromise.js** (Fast, on-device NLP processing)
+- **Lucide React** (Consistent, premium iconography)
+- **html-to-image** & **jsPDF** (Multi-page PDF generation)
+
 ### Folder Structure
 ```text
 └── src
