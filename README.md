@@ -1,6 +1,8 @@
 # Avanotes — The note-taking app with a personality.
 Real-time summarization meets total visual control.
 
+Live at: https://avanotes.vercel.app/
+
 ### Features
 - **Custom Moods & Aesthetics**: Switch between **Comic**, **Hacker**, **Professional**, and **Retro** themes. Customize further with dedicated **Font** and **Color** switchers for a truly personal workspace.
 - **Premium UX**: Smooth transitions, glassmorphism, and responsive design tailored for high-focus writing.
