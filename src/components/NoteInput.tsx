@@ -133,8 +133,50 @@ export default function NoteInput({ onSummarize, isProcessing }: NoteInputProps)
         URL.revokeObjectURL(url);
     };
 
-    const handleSavePdf = () => {
-        exportToPDF('input-card-content', 'avanotes-raw.pdf');
+    const handleSavePdf = async () => {
+        if (!editorRef.current) return;
+
+        // Create a temporary container for a clean export
+        const printArea = document.createElement('div');
+        printArea.id = 'printable-note-area';
+
+        // CRITICAL: Clone HTML and force a white background + black text
+        // This prevents dark mode themes from making the text white on a white capture
+        printArea.innerHTML = editorRef.current.innerHTML;
+
+        // Direct container styling
+        Object.assign(printArea.style, {
+            position: 'fixed',
+            top: '0',
+            left: '0',
+            zIndex: '-9999',
+            padding: '25mm',
+            width: '210mm', // Standard A4 width
+            minHeight: '297mm', // Standard A4 height
+            backgroundColor: 'white',
+            color: 'black',
+            fontFamily: 'system-ui, -apple-system, sans-serif',
+            fontSize: '12pt',
+            lineHeight: '1.6',
+            boxSizing: 'border-box'
+        });
+
+        // Force all direct text to be black if not already styled
+        printArea.querySelectorAll('*').forEach((el: any) => {
+            if (!el.style.color) el.style.color = 'black';
+        });
+
+        document.body.appendChild(printArea);
+
+        try {
+            // Give extra time for layout and style application
+            await new Promise(resolve => setTimeout(resolve, 300));
+            await exportToPDF('printable-note-area', 'avanotes.pdf');
+        } catch (error) {
+            console.error('PDF Export Error:', error);
+        } finally {
+            document.body.removeChild(printArea);
+        }
     };
 
     const handleUploadClick = () => {
