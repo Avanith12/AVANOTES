@@ -10,8 +10,88 @@ interface NoteInputProps {
 
 export default function NoteInput({ onSummarize, isProcessing }: NoteInputProps) {
     const [fontSize, setFontSize] = useState(18);
+    const [isDictating, setIsDictating] = useState(false);
     const editorRef = useRef<HTMLDivElement>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const recognitionRef = useRef<any>(null);
+
+    // Initialize Speech Recognition
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+
+        const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+        if (SpeechRecognition) {
+            const recognition = new SpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+
+            recognition.onresult = (event: any) => {
+                let finalTranscript = '';
+
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) {
+                        finalTranscript += event.results[i][0].transcript;
+                    }
+                }
+
+                if (finalTranscript && editorRef.current) {
+                    // Simple text insertion at cursor or end
+                    const selection = window.getSelection();
+                    const newTextContent = finalTranscript + ' ';
+
+                    if (selection && selection.rangeCount > 0 && editorRef.current.contains(selection.anchorNode)) {
+                        const range = selection.getRangeAt(0);
+                        range.deleteContents();
+                        const textNode = document.createTextNode(newTextContent);
+                        range.insertNode(textNode);
+                        range.setStartAfter(textNode);
+                        range.setEndAfter(textNode);
+                        selection.removeAllRanges();
+                        selection.addRange(range);
+                    } else {
+                        editorRef.current.innerText += newTextContent;
+                    }
+                    // Trigger any input-related logic if needed (currently none for ephemeral notes)
+                }
+            };
+
+            recognition.onerror = (event: any) => {
+                console.error('Speech recognition error:', event.error);
+                setIsDictating(false);
+            };
+
+            recognition.onend = () => {
+                setIsDictating(false);
+            };
+
+            recognitionRef.current = recognition;
+        }
+
+        return () => {
+            if (recognitionRef.current) {
+                recognitionRef.current.stop();
+            }
+        };
+    }, []);
+
+    const handleDictate = () => {
+        if (!recognitionRef.current) {
+            alert('Speech recognition is not supported in this browser. Try Chrome or Edge.');
+            return;
+        }
+
+        if (isDictating) {
+            recognitionRef.current.stop();
+        } else {
+            try {
+                recognitionRef.current.start();
+                setIsDictating(true);
+            } catch (e) {
+                console.error('Recognition start error:', e);
+            }
+        }
+    };
 
     // Focus editor on mount
     useEffect(() => {
@@ -135,6 +215,8 @@ export default function NoteInput({ onSummarize, isProcessing }: NoteInputProps)
                 onItalic={handleItalic}
                 onList={handleList}
                 onIndent={handleIndent}
+                onDictate={handleDictate}
+                isDictating={isDictating}
             />
 
             <div className="relative flex-grow theme-border theme-surface theme-radius overflow-hidden">
@@ -145,8 +227,8 @@ export default function NoteInput({ onSummarize, isProcessing }: NoteInputProps)
                     style={{ fontSize: `${fontSize}px` }}
                     suppressContentEditableWarning={true}
                 >
-                    <div className="opacity-50 pointer-events-none absolute" style={{ display: 'none' }}>
-                        Type your notes here...
+                    <div className="opacity-50 pointer-events-none absolute" style={{ display: isDictating || (editorRef.current?.innerText.trim().length ?? 0) > 0 ? 'none' : 'block' }}>
+                        {isDictating ? 'Listening...' : 'Type your notes here...'}
                     </div>
                 </div>
             </div>
