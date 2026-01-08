@@ -1,6 +1,7 @@
 import {
-    Bold, Italic, List, Indent, Type, Minus, Plus, Mic, MicOff, Palette, Highlighter,
-    Underline, Strikethrough, Outdent, AlignLeft, AlignCenter, AlignRight, AlignJustify, RotateCcw
+    Bold, Italic, List, ListOrdered, Indent, Outdent, Type, Minus, Plus, Mic, MicOff, Palette, Highlighter,
+    Underline, Strikethrough, AlignLeft, AlignCenter, AlignRight, AlignJustify, RotateCcw,
+    Undo, Redo, Link
 } from 'lucide-react';
 
 interface EditorToolbarProps {
@@ -9,8 +10,12 @@ interface EditorToolbarProps {
     onUnderline: () => void;
     onStrikethrough: () => void;
     onList: () => void;
+    onNumberedList: () => void;
     onIndent: () => void;
     onOutdent: () => void;
+    onUndo: () => void;
+    onRedo: () => void;
+    onLink: () => void;
     onAlignLeft: () => void;
     onAlignCenter: () => void;
     onAlignRight: () => void;
@@ -29,8 +34,12 @@ export default function EditorToolbar({
     onUnderline,
     onStrikethrough,
     onList,
+    onNumberedList,
     onIndent,
     onOutdent,
+    onUndo,
+    onRedo,
+    onLink,
     onAlignLeft,
     onAlignCenter,
     onAlignRight,
@@ -47,6 +56,26 @@ export default function EditorToolbar({
 
     return (
         <div className="flex items-center gap-2 p-2 mb-2 border-b theme-border bg-white/50 dark:bg-black/20 rounded-t-lg flex-wrap">
+            {/* History Controls */}
+            <div className="flex items-center gap-1 border-r pr-2 theme-border">
+                <button
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={onUndo}
+                    className="p-1.5 hover:bg-black/10 rounded theme-text"
+                    title="Undo (Ctrl+Z)"
+                >
+                    <Undo size={18} />
+                </button>
+                <button
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={onRedo}
+                    className="p-1.5 hover:bg-black/10 rounded theme-text"
+                    title="Redo (Ctrl+Y)"
+                >
+                    <Redo size={18} />
+                </button>
+            </div>
+
             {/* Font Size Controls (Relative) */}
             <div className="flex items-center gap-1 mr-4 border-r pr-4 theme-border">
                 <Type size={16} className="text-gray-500 mr-2" />
@@ -103,6 +132,14 @@ export default function EditorToolbar({
                 >
                     <Strikethrough size={18} />
                 </button>
+                <button
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={onLink}
+                    className="p-1.5 hover:bg-black/10 rounded theme-text"
+                    title="Insert Link"
+                >
+                    <Link size={18} />
+                </button>
             </div>
 
             {/* List & Indent */}
@@ -111,9 +148,17 @@ export default function EditorToolbar({
                     onMouseDown={(e) => e.preventDefault()}
                     onClick={onList}
                     className="p-1.5 hover:bg-black/10 rounded theme-text"
-                    title="List Item"
+                    title="Bullet List"
                 >
                     <List size={18} />
+                </button>
+                <button
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={onNumberedList}
+                    className="p-1.5 hover:bg-black/10 rounded theme-text"
+                    title="Numbered List"
+                >
+                    <ListOrdered size={18} />
                 </button>
                 <button
                     onMouseDown={(e) => e.preventDefault()}

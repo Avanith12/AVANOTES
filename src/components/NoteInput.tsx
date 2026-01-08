@@ -217,8 +217,15 @@ export default function NoteInput({ onSummarize, isProcessing }: NoteInputProps)
     const handleUnderline = () => execCmd('underline');
     const handleStrikethrough = () => execCmd('strikeThrough');
     const handleList = () => execCmd('insertUnorderedList');
+    const handleNumberedList = () => execCmd('insertOrderedList');
     const handleIndent = () => execCmd('indent');
     const handleOutdent = () => execCmd('outdent');
+    const handleUndo = () => execCmd('undo');
+    const handleRedo = () => execCmd('redo');
+    const handleLink = () => {
+        const url = prompt('Enter the link URL (e.g., https://google.com):');
+        if (url) execCmd('createLink', url);
+    };
     const handleAlignLeft = () => execCmd('justifyLeft');
     const handleAlignCenter = () => execCmd('justifyCenter');
     const handleAlignRight = () => execCmd('justifyRight');
@@ -293,8 +300,12 @@ export default function NoteInput({ onSummarize, isProcessing }: NoteInputProps)
                 onUnderline={handleUnderline}
                 onStrikethrough={handleStrikethrough}
                 onList={handleList}
+                onNumberedList={handleNumberedList}
                 onIndent={handleIndent}
                 onOutdent={handleOutdent}
+                onUndo={handleUndo}
+                onRedo={handleRedo}
+                onLink={handleLink}
                 onAlignLeft={handleAlignLeft}
                 onAlignCenter={handleAlignCenter}
                 onAlignRight={handleAlignRight}
