@@ -223,9 +223,38 @@ export default function NoteInput({ onSummarize, isProcessing }: NoteInputProps)
     const handleUndo = () => execCmd('undo');
     const handleRedo = () => execCmd('redo');
     const handleLink = () => {
-        const url = prompt('Enter the link URL (e.g., https://google.com):');
-        if (url) execCmd('createLink', url);
+        let url = prompt('Enter the link URL (e.g., https://google.com):');
+        if (!url) return;
+
+        // Ensure protocol
+        if (!/^https?:\/\//i.test(url)) {
+            url = 'https://' + url;
+        }
+
+        const selection = window.getSelection();
+        if (selection && selection.rangeCount > 0 && !selection.isCollapsed) {
+            execCmd('createLink', url);
+            // Post-process to add title to newly created link
+            setTimeout(() => {
+                const links = editorRef.current?.querySelectorAll(`a[href="${url}"]`);
+                links?.forEach(l => l.setAttribute('title', 'Cmd/Ctrl + Click to follow link'));
+            }, 10);
+        } else {
+            // If no selection, insert the URL as the link text
+            const linkHtml = `<a href="${url}" target="_blank" rel="noopener noreferrer" title="Cmd/Ctrl + Click to follow link">${url}</a>`;
+            execCmd('insertHTML', linkHtml);
+        }
     };
+    const handleEditorClick = (e: React.MouseEvent) => {
+        const target = e.target as HTMLElement;
+        const anchor = target.closest('a');
+
+        if (anchor && (e.metaKey || e.ctrlKey)) {
+            e.preventDefault();
+            window.open(anchor.href, '_blank', 'noopener,noreferrer');
+        }
+    };
+
     const handleAlignLeft = () => execCmd('justifyLeft');
     const handleAlignCenter = () => execCmd('justifyCenter');
     const handleAlignRight = () => execCmd('justifyRight');
@@ -333,6 +362,7 @@ export default function NoteInput({ onSummarize, isProcessing }: NoteInputProps)
                     ref={editorRef}
                     contentEditable
                     onInput={handleInput}
+                    onClick={handleEditorClick}
                     className="w-full h-full min-h-[400px] p-4 theme-text font-theme-body outline-none overflow-y-auto relative z-10"
                     style={{ fontSize: '18px', backgroundColor: 'transparent' }}
                     suppressContentEditableWarning={true}
