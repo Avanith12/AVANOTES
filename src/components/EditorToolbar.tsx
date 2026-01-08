@@ -1,11 +1,21 @@
-import React from 'react';
-import { Bold, Italic, List, Indent, Type, Minus, Plus, Mic, MicOff, Palette, Highlighter } from 'lucide-react';
+import {
+    Bold, Italic, List, Indent, Type, Minus, Plus, Mic, MicOff, Palette, Highlighter,
+    Underline, Strikethrough, Outdent, AlignLeft, AlignCenter, AlignRight, AlignJustify, RotateCcw
+} from 'lucide-react';
 
 interface EditorToolbarProps {
     onBold: () => void;
     onItalic: () => void;
+    onUnderline: () => void;
+    onStrikethrough: () => void;
     onList: () => void;
     onIndent: () => void;
+    onOutdent: () => void;
+    onAlignLeft: () => void;
+    onAlignCenter: () => void;
+    onAlignRight: () => void;
+    onAlignJustify: () => void;
+    onClearFormatting: () => void;
     onSelectionFontSize: (delta: number) => void;
     onTextColor: (color: string) => void;
     onHighlightColor: (color: string) => void;
@@ -16,8 +26,16 @@ interface EditorToolbarProps {
 export default function EditorToolbar({
     onBold,
     onItalic,
+    onUnderline,
+    onStrikethrough,
     onList,
     onIndent,
+    onOutdent,
+    onAlignLeft,
+    onAlignCenter,
+    onAlignRight,
+    onAlignJustify,
+    onClearFormatting,
     onSelectionFontSize,
     onTextColor,
     onHighlightColor,
@@ -71,6 +89,26 @@ export default function EditorToolbar({
                 </button>
                 <button
                     onMouseDown={(e) => e.preventDefault()}
+                    onClick={onUnderline}
+                    className="p-1.5 hover:bg-black/10 rounded theme-text"
+                    title="Underline"
+                >
+                    <Underline size={18} />
+                </button>
+                <button
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={onStrikethrough}
+                    className="p-1.5 hover:bg-black/10 rounded theme-text"
+                    title="Strikethrough"
+                >
+                    <Strikethrough size={18} />
+                </button>
+            </div>
+
+            {/* List & Indent */}
+            <div className="flex items-center gap-1 border-x px-2 theme-border">
+                <button
+                    onMouseDown={(e) => e.preventDefault()}
                     onClick={onList}
                     className="p-1.5 hover:bg-black/10 rounded theme-text"
                     title="List Item"
@@ -79,11 +117,67 @@ export default function EditorToolbar({
                 </button>
                 <button
                     onMouseDown={(e) => e.preventDefault()}
+                    onClick={onOutdent}
+                    className="p-1.5 hover:bg-black/10 rounded theme-text"
+                    title="Decrease Indent"
+                >
+                    <Outdent size={18} />
+                </button>
+                <button
+                    onMouseDown={(e) => e.preventDefault()}
                     onClick={onIndent}
                     className="p-1.5 hover:bg-black/10 rounded theme-text"
-                    title="Indent"
+                    title="Increase Indent"
                 >
                     <Indent size={18} />
+                </button>
+            </div>
+
+            {/* Alignment */}
+            <div className="flex items-center gap-1 border-r pr-2 theme-border">
+                <button
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={onAlignLeft}
+                    className="p-1.5 hover:bg-black/10 rounded theme-text"
+                    title="Align Left"
+                >
+                    <AlignLeft size={18} />
+                </button>
+                <button
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={onAlignCenter}
+                    className="p-1.5 hover:bg-black/10 rounded theme-text"
+                    title="Align Center"
+                >
+                    <AlignCenter size={18} />
+                </button>
+                <button
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={onAlignRight}
+                    className="p-1.5 hover:bg-black/10 rounded theme-text"
+                    title="Align Right"
+                >
+                    <AlignRight size={18} />
+                </button>
+                <button
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={onAlignJustify}
+                    className="p-1.5 hover:bg-black/10 rounded theme-text"
+                    title="Justify"
+                >
+                    <AlignJustify size={18} />
+                </button>
+            </div>
+
+            {/* Clear Formatting */}
+            <div className="flex items-center gap-1 border-r pr-2 theme-border">
+                <button
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={onClearFormatting}
+                    className="p-1.5 hover:bg-black/10 rounded theme-text text-red-500"
+                    title="Clear Formatting"
+                >
+                    <RotateCcw size={18} />
                 </button>
             </div>
 

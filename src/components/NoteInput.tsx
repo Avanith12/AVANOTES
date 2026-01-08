@@ -214,8 +214,16 @@ export default function NoteInput({ onSummarize, isProcessing }: NoteInputProps)
 
     const handleBold = () => execCmd('bold');
     const handleItalic = () => execCmd('italic');
+    const handleUnderline = () => execCmd('underline');
+    const handleStrikethrough = () => execCmd('strikeThrough');
     const handleList = () => execCmd('insertUnorderedList');
     const handleIndent = () => execCmd('indent');
+    const handleOutdent = () => execCmd('outdent');
+    const handleAlignLeft = () => execCmd('justifyLeft');
+    const handleAlignCenter = () => execCmd('justifyCenter');
+    const handleAlignRight = () => execCmd('justifyRight');
+    const handleAlignJustify = () => execCmd('justifyFull');
+    const handleClearFormatting = () => execCmd('removeFormat');
     const handleTextColor = (color: string) => execCmd('foreColor', color);
     const handleHighlightColor = (color: string) => execCmd('backColor', color);
 
@@ -282,8 +290,16 @@ export default function NoteInput({ onSummarize, isProcessing }: NoteInputProps)
                 onSelectionFontSize={handleSelectionFontSize}
                 onBold={handleBold}
                 onItalic={handleItalic}
+                onUnderline={handleUnderline}
+                onStrikethrough={handleStrikethrough}
                 onList={handleList}
                 onIndent={handleIndent}
+                onOutdent={handleOutdent}
+                onAlignLeft={handleAlignLeft}
+                onAlignCenter={handleAlignCenter}
+                onAlignRight={handleAlignRight}
+                onAlignJustify={handleAlignJustify}
+                onClearFormatting={handleClearFormatting}
                 onTextColor={handleTextColor}
                 onHighlightColor={handleHighlightColor}
                 onDictate={handleDictate}
