@@ -19,12 +19,21 @@ Just type naturally! Avanotes understands context using on-device NLP:
 - **Insights**: "The project is currently in beta." -> Intelligently kept as a **Key Note**.
 
 ### Built With
-- **Next.js 14** (App Router)
-- **React 18** (Functional Components & Hooks)
-- **Tailwind CSS** (Custom theme orchestration)
-- **Compromise.js** (Fast, on-device NLP processing)
-- **Lucide React** (Consistent, premium iconography)
-- **html-to-image** & **jsPDF** (Multi-page PDF generation)
+- **Next.js 16**: Modern React framework for the overall application structure.
+- **React 19**: The core library for building the interactive user interface.
+- **TypeScript**: Adds static typing to ensure code reliability and catch errors early.
+- **Tailwind CSS 4**: Handles all styling and theme-switching logic via CSS variables.
+- **Compromise**: A natural language processing (NLP) library that runs 100% in your browser.
+- **Web Speech API**: Powers the real-time voice-to-text dictation feature.
+- **Lucide React**: Provides the premium-style icons used throughout the app.
+- **jsPDF**: Generates the multi-page PDF documents for your summaries.
+- **html-to-image**: Captures the visual look of the app for high-quality exported files.
+- **Google Fonts**: Sources the high-quality typography for the various themes.
+- **@tailwindcss/typography**: Adds beautiful, automatic styling to the summarized notes.
+- **Selection API**: Manages text highlighting and cursor placement for the rich-text editor.
+- **ContentEditable**: The native browser technology used to build the distraction-free editor.
+
+---
 
 ### Folder Structure
 ```text
