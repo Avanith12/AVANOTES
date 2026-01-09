@@ -1,3 +1,5 @@
+![Avanotes Hero](./readme.png)
+
 # Avanotes — The note-taking app with a personality.
 Real-time summarization meets total visual control.
 
