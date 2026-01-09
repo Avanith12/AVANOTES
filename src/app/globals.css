@@ -161,6 +161,25 @@ body {
   cursor: pointer;
 }
 
+/* Restore List Styling for Editor */
+.app-root [contenteditable] ul {
+  list-style-type: disc !important;
+  padding-left: 2.5rem !important;
+  margin-block: 1rem !important;
+}
+
+.app-root [contenteditable] ol {
+  list-style-type: decimal !important;
+  padding-left: 2.5rem !important;
+  margin-block: 1rem !important;
+}
+
+.app-root [contenteditable] li {
+  display: list-item !important;
+  list-style: inherit !important;
+  margin-bottom: 0.25rem;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
