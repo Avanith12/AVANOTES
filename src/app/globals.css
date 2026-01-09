@@ -76,23 +76,23 @@
   --font-body: var(--font-coding);
 }
 
-/* Font Overrides via data-font attribute - HIGH SPECIFICITY */
-html body[data-theme] .app-root[data-font="comic"] {
+/* Font Overrides via data-font attribute - Apply to app-root */
+.app-root[data-font="comic"] {
   --font-heading: var(--font-bangers);
   --font-body: var(--font-comic);
 }
 
-html body[data-theme] .app-root[data-font="coding"] {
+.app-root[data-font="coding"] {
   --font-heading: var(--font-coding);
   --font-body: var(--font-coding);
 }
 
-html body[data-theme] .app-root[data-font="inter"] {
+.app-root[data-font="inter"] {
   --font-heading: var(--font-inter);
   --font-body: var(--font-inter);
 }
 
-html body[data-theme] .app-root[data-font="serif"] {
+.app-root[data-font="serif"] {
   --font-heading: var(--font-serif);
   --font-body: var(--font-serif);
 }
@@ -100,6 +100,7 @@ html body[data-theme] .app-root[data-font="serif"] {
 /* Base Body Application */
 body {
   transition: background-color 0.3s, color 0.3s;
+  font-family: var(--font-body);
 }
 
 /* Utility Defaults */

@@ -41,7 +41,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${bangers.variable} ${comicNeue.variable} ${firaCode.variable} ${inter.variable} ${robotoSlab.variable} antialiased transition-colors duration-300`}
       >
